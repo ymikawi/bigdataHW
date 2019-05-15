@@ -1,0 +1,823 @@
+{
+  "paragraphs": [
+    {
+      "title": "",
+      "text": "\nimport pandas as pd\nimport gzip",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:30:55.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "jdbc",
+          "profile": "sql",
+          "isCustom": false,
+          "editorLanguage": "sql",
+          "className": "org.apache.zeppelin.jdbc.JDBCInterpreter",
+          "isDefault": true
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "data": "org.postgresql.util.PSQLException: ERROR: syntax error at or near \"pandas\"\n  Position: 8\n\tat org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2433)\n\tat org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2178)\n\tat org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:306)\n\tat org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441)\n\tat org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365)\n\tat org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:307)\n\tat org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:293)\n\tat org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:270)\n\tat org.postgresql.jdbc.PgStatement.execute(PgStatement.java:266)\n\tat org.apache.commons.dbcp2.DelegatingStatement.execute(DelegatingStatement.java:291)\n\tat org.apache.commons.dbcp2.DelegatingStatement.execute(DelegatingStatement.java:291)\n\tat org.apache.zeppelin.jdbc.JDBCInterpreter.executeSql(JDBCInterpreter.java:733)\n\tat org.apache.zeppelin.jdbc.JDBCInterpreter.interpret(JDBCInterpreter.java:816)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:103)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServerForZepl$InterpretJob.jobRun(RemoteInterpreterServerForZepl.java:635)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:188)\n\tat org.apache.zeppelin.scheduler.ParallelScheduler$JobRunner.run(ParallelScheduler.java:162)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\n\tat java.lang.Thread.run(Thread.java:748)\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190512-224152_749576332",
+      "dateCreated": "2019-05-12 22:41:52.000",
+      "dateStarted": "2019-05-15 03:30:52.055",
+      "dateFinished": "2019-05-15 03:30:55.313",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\r\n# Read in data from S3 Buckets\r\nfrom pyspark import SparkFiles\r\nurl \u003d \"https://s3.amazonaws.com/amazon-reviews-pds/tsv/amazon_reviews_us_Personal_Care_Appliances_v1_00.tsv.gz\"\r\nspark.sparkContext.addFile(url)\r\ndf \u003d spark.read.csv(SparkFiles.get(\"amazon_reviews_us_Personal_Care_Appliances_v1_00.tsv.gz\"), sep\u003d\"\\t\", header\u003dTrue)\r\n\r\n# Show DataFrame\r\ndf.show()",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:31:35.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+-----------+-----------+--------------+----------+--------------+--------------------+--------------------+-----------+-------------+-----------+----+-----------------+--------------------+--------------------+-----------+\n|marketplace|customer_id|     review_id|product_id|product_parent|       product_title|    product_category|star_rating|helpful_votes|total_votes|vine|verified_purchase|     review_headline|         review_body|review_date|\n+-----------+-----------+--------------+----------+--------------+--------------------+--------------------+-----------+-------------+-----------+----+-----------------+--------------------+--------------------+-----------+\n|         US|   32114233|R1QX6706ZWJ1P5|B00OYRW4UE|     223980852|Elite Sportz Exer...|Personal_Care_App...|          5|            0|          0|   N|                Y|Good quality. Shi...|Exactly as descri...| 2015-08-31|\n|         US|   18125776|R3QWMLJHIW6P37|B0000537JQ|     819771537|     Ezy Dose Weekly|Personal_Care_App...|          5|            0|          0|   N|                Y|          Five Stars|         It is great| 2015-08-31|\n|         US|   19917519|R14Z1VR1N0Z9G6|B00HXXO332|     849307176|Pulse Oximeter, B...|Personal_Care_App...|          5|            1|          1|   N|                Y|It\u0027s really nice ...|It\u0027s really nice ...| 2015-08-31|\n|         US|   18277171| R25ZRJL0GH0U0|B00EOB0JA2|     700864740|SE Tools Tool Kit...|Personal_Care_App...|          2|            0|          0|   N|                Y|           Two Stars|The kit works fin...| 2015-08-31|\n|         US|    2593270|R3837KYH7AZNIY|B00OC2O1UC|     794298839|doTERRA HD Clear ...|Personal_Care_App...|          4|            0|          1|   N|                Y|          Four Stars|It works better t...| 2015-08-31|\n|         US|    2592955|R2MN0QYCY6EVIV|B00HES9CMS|     318730927|Viva Naturals #1 ...|Personal_Care_App...|          5|            0|          0|   N|                Y|      not bad at all|I added to my oat...| 2015-08-31|\n|         US|   15168265|R3AN2UJ1D42ZS0|B0016BFR4G|     887476137|Uncle Lee\u0027s Organ...|Personal_Care_App...|          5|            0|          0|   N|                Y|Mild, enjoyable t...|Husband drinks th...| 2015-08-31|\n|         US|   13761624|R3U29ZLUWEEK4M|B00K504UUG|     458706868|Syrtenty Electrod...|Personal_Care_App...|          5|            0|          0|   N|                Y|          Five Stars|       Good quality.| 2015-08-31|\n|         US|   37070734|R16ZDMJJHK796C|B00HES9CMS|     318730927|Viva Naturals #1 ...|Personal_Care_App...|          5|            0|          0|   N|                N|        High Quality|This is high qual...| 2015-08-31|\n|         US|   29615023| RRRDOEJZD1Y22|B00P6TUO5G|     170248843|Viva Naturals Org...|Personal_Care_App...|          4|            0|          0|   N|                Y|          we like it|Buying more produ...| 2015-08-31|\n|         US|   47893062|R2KR5ZEAS859DK|B0006VJ6TO|     412568457|Body Back Company...|Personal_Care_App...|          5|            0|          0|   N|                Y|          Five Stars|    Their best cane.| 2015-08-31|\n|         US|    2582596| RR7PGQY763IHF|B00H9L7VIW|     851045898|boostULTIMATE - 6...|Personal_Care_App...|          5|            0|          0|   N|                Y|       Great product|Great product! Ma...| 2015-08-31|\n|         US|   21969415| RN37YYZBP9BMP|B00P1JNZUW|     274294586|doTERRA Veráge Sk...|Personal_Care_App...|          5|            4|          4|   N|                Y|Love the prouduct...|Love the prouduct...| 2015-08-31|\n|         US|   43153609| R1UXGB70OR5TW|B00N5HD340|     955577225|      Straight Razor|Personal_Care_App...|          5|            0|          0|   N|                Y|          Five Stars|          great buy.| 2015-08-31|\n|         US|   17782951|R1OC5ZNXSGO7P1|B0007DHMVK|      78719480|BONGER Massage To...|Personal_Care_App...|          5|            0|          0|   N|                Y|          Five stars|These are so much...| 2015-08-31|\n|         US|   13710264|R1W4ZN8BPVNWK3|B0002JG2NI|     900996767|Home Health Casto...|Personal_Care_App...|          5|            0|          0|   N|                Y|It works for home...|It works for home...| 2015-08-31|\n|         US|   30720884|R2KE33CNN5X2B0|B00OYRW4UE|     223980852|Elite Sportz Exer...|Personal_Care_App...|          5|            0|          0|   N|                Y|These work great ...|These work great ...| 2015-08-31|\n|         US|   35206254|R1A26EDSO0U5N6|B00598WT0C|     218203731|Aloha Eyewear “St...|Personal_Care_App...|          5|            0|          0|   N|                Y|             awesome|for anyone needin...| 2015-08-31|\n|         US|   10261156|R3L81GOHVS3E9P|B0006VJ6TO|     412568457|Body Back Company...|Personal_Care_App...|          5|            0|          0|   N|                Y| Deep tissue massage|This works perfec...| 2015-08-31|\n|         US|   50708344| RNFW9SWC5D0YF|B00J7G96NK|     256041044|Oral B Glide Flos...|Personal_Care_App...|          5|            2|          2|   N|                N|These are an esse...|Not only are thes...| 2015-08-31|\n+-----------+-----------+--------------+----------+--------------+--------------------+--------------------+-----------+-------------+-----------+----+-----------------+--------------------+--------------------+-----------+\nonly showing top 20 rows\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190512-231224_1117742603",
+      "dateCreated": "2019-05-12 23:12:24.000",
+      "dateStarted": "2019-05-15 03:30:55.336",
+      "dateFinished": "2019-05-15 03:31:35.033",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Drop null values\ndropna_df \u003d df.dropna()\ndropna_df.show()",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:31:35.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+-----------+-----------+--------------+----------+--------------+--------------------+--------------------+-----------+-------------+-----------+----+-----------------+--------------------+--------------------+-----------+\n|marketplace|customer_id|     review_id|product_id|product_parent|       product_title|    product_category|star_rating|helpful_votes|total_votes|vine|verified_purchase|     review_headline|         review_body|review_date|\n+-----------+-----------+--------------+----------+--------------+--------------------+--------------------+-----------+-------------+-----------+----+-----------------+--------------------+--------------------+-----------+\n|         US|   32114233|R1QX6706ZWJ1P5|B00OYRW4UE|     223980852|Elite Sportz Exer...|Personal_Care_App...|          5|            0|          0|   N|                Y|Good quality. Shi...|Exactly as descri...| 2015-08-31|\n|         US|   18125776|R3QWMLJHIW6P37|B0000537JQ|     819771537|     Ezy Dose Weekly|Personal_Care_App...|          5|            0|          0|   N|                Y|          Five Stars|         It is great| 2015-08-31|\n|         US|   19917519|R14Z1VR1N0Z9G6|B00HXXO332|     849307176|Pulse Oximeter, B...|Personal_Care_App...|          5|            1|          1|   N|                Y|It\u0027s really nice ...|It\u0027s really nice ...| 2015-08-31|\n|         US|   18277171| R25ZRJL0GH0U0|B00EOB0JA2|     700864740|SE Tools Tool Kit...|Personal_Care_App...|          2|            0|          0|   N|                Y|           Two Stars|The kit works fin...| 2015-08-31|\n|         US|    2593270|R3837KYH7AZNIY|B00OC2O1UC|     794298839|doTERRA HD Clear ...|Personal_Care_App...|          4|            0|          1|   N|                Y|          Four Stars|It works better t...| 2015-08-31|\n|         US|    2592955|R2MN0QYCY6EVIV|B00HES9CMS|     318730927|Viva Naturals #1 ...|Personal_Care_App...|          5|            0|          0|   N|                Y|      not bad at all|I added to my oat...| 2015-08-31|\n|         US|   15168265|R3AN2UJ1D42ZS0|B0016BFR4G|     887476137|Uncle Lee\u0027s Organ...|Personal_Care_App...|          5|            0|          0|   N|                Y|Mild, enjoyable t...|Husband drinks th...| 2015-08-31|\n|         US|   13761624|R3U29ZLUWEEK4M|B00K504UUG|     458706868|Syrtenty Electrod...|Personal_Care_App...|          5|            0|          0|   N|                Y|          Five Stars|       Good quality.| 2015-08-31|\n|         US|   37070734|R16ZDMJJHK796C|B00HES9CMS|     318730927|Viva Naturals #1 ...|Personal_Care_App...|          5|            0|          0|   N|                N|        High Quality|This is high qual...| 2015-08-31|\n|         US|   29615023| RRRDOEJZD1Y22|B00P6TUO5G|     170248843|Viva Naturals Org...|Personal_Care_App...|          4|            0|          0|   N|                Y|          we like it|Buying more produ...| 2015-08-31|\n|         US|   47893062|R2KR5ZEAS859DK|B0006VJ6TO|     412568457|Body Back Company...|Personal_Care_App...|          5|            0|          0|   N|                Y|          Five Stars|    Their best cane.| 2015-08-31|\n|         US|    2582596| RR7PGQY763IHF|B00H9L7VIW|     851045898|boostULTIMATE - 6...|Personal_Care_App...|          5|            0|          0|   N|                Y|       Great product|Great product! Ma...| 2015-08-31|\n|         US|   21969415| RN37YYZBP9BMP|B00P1JNZUW|     274294586|doTERRA Veráge Sk...|Personal_Care_App...|          5|            4|          4|   N|                Y|Love the prouduct...|Love the prouduct...| 2015-08-31|\n|         US|   43153609| R1UXGB70OR5TW|B00N5HD340|     955577225|      Straight Razor|Personal_Care_App...|          5|            0|          0|   N|                Y|          Five Stars|          great buy.| 2015-08-31|\n|         US|   17782951|R1OC5ZNXSGO7P1|B0007DHMVK|      78719480|BONGER Massage To...|Personal_Care_App...|          5|            0|          0|   N|                Y|          Five stars|These are so much...| 2015-08-31|\n|         US|   13710264|R1W4ZN8BPVNWK3|B0002JG2NI|     900996767|Home Health Casto...|Personal_Care_App...|          5|            0|          0|   N|                Y|It works for home...|It works for home...| 2015-08-31|\n|         US|   30720884|R2KE33CNN5X2B0|B00OYRW4UE|     223980852|Elite Sportz Exer...|Personal_Care_App...|          5|            0|          0|   N|                Y|These work great ...|These work great ...| 2015-08-31|\n|         US|   35206254|R1A26EDSO0U5N6|B00598WT0C|     218203731|Aloha Eyewear “St...|Personal_Care_App...|          5|            0|          0|   N|                Y|             awesome|for anyone needin...| 2015-08-31|\n|         US|   10261156|R3L81GOHVS3E9P|B0006VJ6TO|     412568457|Body Back Company...|Personal_Care_App...|          5|            0|          0|   N|                Y| Deep tissue massage|This works perfec...| 2015-08-31|\n|         US|   50708344| RNFW9SWC5D0YF|B00J7G96NK|     256041044|Oral B Glide Flos...|Personal_Care_App...|          5|            2|          2|   N|                N|These are an esse...|Not only are thes...| 2015-08-31|\n+-----------+-----------+--------------+----------+--------------+--------------------+--------------------+-----------+-------------+-----------+----+-----------------+--------------------+--------------------+-----------+\nonly showing top 20 rows\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190512-231244_1598446566",
+      "dateCreated": "2019-05-12 23:12:44.000",
+      "dateStarted": "2019-05-15 03:31:35.046",
+      "dateFinished": "2019-05-15 03:31:35.496",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\r\n# Print our schema\r\ndf.printSchema()",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:31:35.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "root\n |-- marketplace: string (nullable \u003d true)\n |-- customer_id: string (nullable \u003d true)\n |-- review_id: string (nullable \u003d true)\n |-- product_id: string (nullable \u003d true)\n |-- product_parent: string (nullable \u003d true)\n |-- product_title: string (nullable \u003d true)\n |-- product_category: string (nullable \u003d true)\n |-- star_rating: string (nullable \u003d true)\n |-- helpful_votes: string (nullable \u003d true)\n |-- total_votes: string (nullable \u003d true)\n |-- vine: string (nullable \u003d true)\n |-- verified_purchase: string (nullable \u003d true)\n |-- review_headline: string (nullable \u003d true)\n |-- review_body: string (nullable \u003d true)\n |-- review_date: string (nullable \u003d true)\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190512-231415_128600672",
+      "dateCreated": "2019-05-12 23:14:15.000",
+      "dateStarted": "2019-05-15 03:31:35.498",
+      "dateFinished": "2019-05-15 03:31:35.644",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\r\n# Show the columns\r\ndf.columns",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:31:35.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "[\u0027marketplace\u0027,\n \u0027customer_id\u0027,\n \u0027review_id\u0027,\n \u0027product_id\u0027,\n \u0027product_parent\u0027,\n \u0027product_title\u0027,\n \u0027product_category\u0027,\n \u0027star_rating\u0027,\n \u0027helpful_votes\u0027,\n \u0027total_votes\u0027,\n \u0027vine\u0027,\n \u0027verified_purchase\u0027,\n \u0027review_headline\u0027,\n \u0027review_body\u0027,\n \u0027review_date\u0027]",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190512-231437_800002673",
+      "dateCreated": "2019-05-12 23:14:37.000",
+      "dateStarted": "2019-05-15 03:31:35.645",
+      "dateFinished": "2019-05-15 03:31:35.768",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\r\n# Describe our data\r\ndf.describe()",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:31:41.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "DataFrame[summary: string, marketplace: string, customer_id: string, review_id: string, product_id: string, product_parent: string, product_title: string, product_category: string, star_rating: string, helpful_votes: string, total_votes: string, vine: string, verified_purchase: string, review_headline: string, review_body: string, review_date: string]",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190512-231501_690806038",
+      "dateCreated": "2019-05-12 23:15:01.000",
+      "dateStarted": "2019-05-15 03:31:35.795",
+      "dateFinished": "2019-05-15 03:31:41.720",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\r\n# Import struct fields that we can use\r\nfrom pyspark.sql.types import StructField, StringType, IntegerType, StructType",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:31:41.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190512-231454_690766069",
+      "dateCreated": "2019-05-12 23:14:54.000",
+      "dateStarted": "2019-05-15 03:31:41.721",
+      "dateFinished": "2019-05-15 03:31:41.839",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\nimport pandas as pd\npd_df \u003d df.toPandas()\n\npd_df.head()",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:31:44.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "  marketplace customer_id       review_id  product_id product_parent  \\\n0          US    32114233  R1QX6706ZWJ1P5  B00OYRW4UE      223980852   \n1          US    18125776  R3QWMLJHIW6P37  B0000537JQ      819771537   \n2          US    19917519  R14Z1VR1N0Z9G6  B00HXXO332      849307176   \n3          US    18277171   R25ZRJL0GH0U0  B00EOB0JA2      700864740   \n4          US     2593270  R3837KYH7AZNIY  B00OC2O1UC      794298839   \n\n                                       product_title  \\\n0  Elite Sportz Exercise Sliders are Double Sided...   \n1                                    Ezy Dose Weekly   \n2               Pulse Oximeter, Blood Oxygen Monitor   \n3  SE Tools Tool Kit Watch Watch Repair Kit (20 P...   \n4  doTERRA HD Clear Facial Kit - Facial Lotion, F...   \n\n           product_category star_rating helpful_votes total_votes vine  \\\n0  Personal_Care_Appliances           5             0           0    N   \n1  Personal_Care_Appliances           5             0           0    N   \n2  Personal_Care_Appliances           5             1           1    N   \n3  Personal_Care_Appliances           2             0           0    N   \n4  Personal_Care_Appliances           4             0           1    N   \n\n  verified_purchase                  review_headline  \\\n0                 Y            Good quality. Shipped   \n1                 Y                       Five Stars   \n2                 Y  It\u0027s really nice it works great   \n3                 Y                        Two Stars   \n4                 Y                       Four Stars   \n\n                                         review_body review_date  \n0   Exactly as described. Good quality. Shipped fast  2015-08-31  \n1                                        It is great  2015-08-31  \n2  It\u0027s really nice it works great. You have the ...  2015-08-31  \n3     The kit works fine... simple cheap plastic tho  2015-08-31  \n4       It works better than anything else ive tried  2015-08-31  ",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190512-231527_74356090",
+      "dateCreated": "2019-05-12 23:15:27.000",
+      "dateStarted": "2019-05-15 03:31:41.840",
+      "dateFinished": "2019-05-15 03:31:44.820",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Load in a sql function to use columns\nfrom pyspark.sql.functions import col\n",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:31:44.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190512-231539_32296394",
+      "dateCreated": "2019-05-12 23:15:39.000",
+      "dateStarted": "2019-05-15 03:31:44.821",
+      "dateFinished": "2019-05-15 03:31:44.935",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Create user dataframe to match review_id table scheme (not sure why this isn\u0027t working.  says list not callable)\nreviewdf \u003d df.select([\"review_id\", \"customer_id\", \"product_id\", \"product_parent\", \"review_date\"])\nreviewdf.show()",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:31:45.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+--------------+-----------+----------+--------------+-----------+\n|     review_id|customer_id|product_id|product_parent|review_date|\n+--------------+-----------+----------+--------------+-----------+\n|R1QX6706ZWJ1P5|   32114233|B00OYRW4UE|     223980852| 2015-08-31|\n|R3QWMLJHIW6P37|   18125776|B0000537JQ|     819771537| 2015-08-31|\n|R14Z1VR1N0Z9G6|   19917519|B00HXXO332|     849307176| 2015-08-31|\n| R25ZRJL0GH0U0|   18277171|B00EOB0JA2|     700864740| 2015-08-31|\n|R3837KYH7AZNIY|    2593270|B00OC2O1UC|     794298839| 2015-08-31|\n|R2MN0QYCY6EVIV|    2592955|B00HES9CMS|     318730927| 2015-08-31|\n|R3AN2UJ1D42ZS0|   15168265|B0016BFR4G|     887476137| 2015-08-31|\n|R3U29ZLUWEEK4M|   13761624|B00K504UUG|     458706868| 2015-08-31|\n|R16ZDMJJHK796C|   37070734|B00HES9CMS|     318730927| 2015-08-31|\n| RRRDOEJZD1Y22|   29615023|B00P6TUO5G|     170248843| 2015-08-31|\n|R2KR5ZEAS859DK|   47893062|B0006VJ6TO|     412568457| 2015-08-31|\n| RR7PGQY763IHF|    2582596|B00H9L7VIW|     851045898| 2015-08-31|\n| RN37YYZBP9BMP|   21969415|B00P1JNZUW|     274294586| 2015-08-31|\n| R1UXGB70OR5TW|   43153609|B00N5HD340|     955577225| 2015-08-31|\n|R1OC5ZNXSGO7P1|   17782951|B0007DHMVK|      78719480| 2015-08-31|\n|R1W4ZN8BPVNWK3|   13710264|B0002JG2NI|     900996767| 2015-08-31|\n|R2KE33CNN5X2B0|   30720884|B00OYRW4UE|     223980852| 2015-08-31|\n|R1A26EDSO0U5N6|   35206254|B00598WT0C|     218203731| 2015-08-31|\n|R3L81GOHVS3E9P|   10261156|B0006VJ6TO|     412568457| 2015-08-31|\n| RNFW9SWC5D0YF|   50708344|B00J7G96NK|     256041044| 2015-08-31|\n+--------------+-----------+----------+--------------+-----------+\nonly showing top 20 rows\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190513-010401_1859903916",
+      "dateCreated": "2019-05-13 01:04:01.000",
+      "dateStarted": "2019-05-15 03:31:44.936",
+      "dateFinished": "2019-05-15 03:31:45.201",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Create user dataframe to match products table scheme (not sure why this isn\u0027t working.  says list not callable)\nproductsdf \u003d df.select([\"product_id\", \"product_title\"])\nproductsdf.show()",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:32:46.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+----------+--------------------+\n|product_id|       product_title|\n+----------+--------------------+\n|B00OYRW4UE|Elite Sportz Exer...|\n|B0000537JQ|     Ezy Dose Weekly|\n|B00HXXO332|Pulse Oximeter, B...|\n|B00EOB0JA2|SE Tools Tool Kit...|\n|B00OC2O1UC|doTERRA HD Clear ...|\n|B00HES9CMS|Viva Naturals #1 ...|\n|B0016BFR4G|Uncle Lee\u0027s Organ...|\n|B00K504UUG|Syrtenty Electrod...|\n|B00HES9CMS|Viva Naturals #1 ...|\n|B00P6TUO5G|Viva Naturals Org...|\n|B0006VJ6TO|Body Back Company...|\n|B00H9L7VIW|boostULTIMATE - 6...|\n|B00P1JNZUW|doTERRA Veráge Sk...|\n|B00N5HD340|      Straight Razor|\n|B0007DHMVK|BONGER Massage To...|\n|B0002JG2NI|Home Health Casto...|\n|B00OYRW4UE|Elite Sportz Exer...|\n|B00598WT0C|Aloha Eyewear “St...|\n|B0006VJ6TO|Body Back Company...|\n|B00J7G96NK|Oral B Glide Flos...|\n+----------+--------------------+\nonly showing top 20 rows\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190513-011002_1007884478",
+      "dateCreated": "2019-05-13 01:10:02.000",
+      "dateStarted": "2019-05-15 03:32:46.748",
+      "dateFinished": "2019-05-15 03:32:46.967",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Create user dataframe to match customer table scheme (not sure why this isn\u0027t working.  says list not callable)\ncustomersdf \u003d df.select([\"customer_id\"])\ncustomersdf.show()",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:35:33.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+-----------+\n|customer_id|\n+-----------+\n|   32114233|\n|   18125776|\n|   19917519|\n|   18277171|\n|    2593270|\n|    2592955|\n|   15168265|\n|   13761624|\n|   37070734|\n|   29615023|\n|   47893062|\n|    2582596|\n|   21969415|\n|   43153609|\n|   17782951|\n|   13710264|\n|   30720884|\n|   35206254|\n|   10261156|\n|   50708344|\n+-----------+\nonly showing top 20 rows\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190513-011006_2121310995",
+      "dateCreated": "2019-05-13 01:10:06.000",
+      "dateStarted": "2019-05-15 03:35:33.316",
+      "dateFinished": "2019-05-15 03:35:33.483",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Create user dataframe to match vine table scheme (not sure why this isn\u0027t working.  says list not callable)\nvinedf \u003d df.select([\"review_id\", \"star_rating\", \"helpful_votes\", \"total_votes\", \"vine\"])\nvinedf.show()",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:36:46.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+--------------+-----------+-------------+-----------+----+\n|     review_id|star_rating|helpful_votes|total_votes|vine|\n+--------------+-----------+-------------+-----------+----+\n|R1QX6706ZWJ1P5|          5|            0|          0|   N|\n|R3QWMLJHIW6P37|          5|            0|          0|   N|\n|R14Z1VR1N0Z9G6|          5|            1|          1|   N|\n| R25ZRJL0GH0U0|          2|            0|          0|   N|\n|R3837KYH7AZNIY|          4|            0|          1|   N|\n|R2MN0QYCY6EVIV|          5|            0|          0|   N|\n|R3AN2UJ1D42ZS0|          5|            0|          0|   N|\n|R3U29ZLUWEEK4M|          5|            0|          0|   N|\n|R16ZDMJJHK796C|          5|            0|          0|   N|\n| RRRDOEJZD1Y22|          4|            0|          0|   N|\n|R2KR5ZEAS859DK|          5|            0|          0|   N|\n| RR7PGQY763IHF|          5|            0|          0|   N|\n| RN37YYZBP9BMP|          5|            4|          4|   N|\n| R1UXGB70OR5TW|          5|            0|          0|   N|\n|R1OC5ZNXSGO7P1|          5|            0|          0|   N|\n|R1W4ZN8BPVNWK3|          5|            0|          0|   N|\n|R2KE33CNN5X2B0|          5|            0|          0|   N|\n|R1A26EDSO0U5N6|          5|            0|          0|   N|\n|R3L81GOHVS3E9P|          5|            0|          0|   N|\n| RNFW9SWC5D0YF|          5|            2|          2|   N|\n+--------------+-----------+-------------+-----------+----+\nonly showing top 20 rows\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190513-011006_809024845",
+      "dateCreated": "2019-05-13 01:10:06.000",
+      "dateStarted": "2019-05-15 03:36:46.178",
+      "dateFinished": "2019-05-15 03:36:46.392",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Configure settings for RDS\nmode \u003d \"append\"\njdbc_url\u003d\"jdbc:postgresql://finalclass.chyqd9h8fqhz.us-east-1.rds.amazonaws.com:5432/codingbootcamp2\"\nconfig \u003d {\"user\":\"finalclass\", \n          \"password\": \"finalclass\", \n          \"driver\":\"org.postgresql.Driver\"}\n",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:36:58.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190512-231911_1843014222",
+      "dateCreated": "2019-05-12 23:19:11.000",
+      "dateStarted": "2019-05-15 03:36:58.736",
+      "dateFinished": "2019-05-15 03:36:58.848",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Append DataFrame to review_id_table table in RDS\n\nreviewdf.write.jdbc(url\u003djdbc_url, table\u003d\u0027review_id_table\u0027, mode\u003dmode, properties\u003dconfig)",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:38:57.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190513-005849_383691680",
+      "dateCreated": "2019-05-13 00:58:49.000",
+      "dateStarted": "2019-05-15 03:38:07.253",
+      "dateFinished": "2019-05-15 03:38:39.541",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Append DataFrame to active_user table in RDS\n\nproductsdf.write.jdbc(url\u003djdbc_url, table\u003d\u0027product\u0027, mode\u003dmode, properties\u003dconfig)",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:42:26.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190512-235141_283117728",
+      "dateCreated": "2019-05-12 23:51:41.000",
+      "dateStarted": "2019-05-15 03:41:52.260",
+      "dateFinished": "2019-05-15 03:42:26.802",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Append DataFrame to active_user table in RDS\n\ncustomersdf.write.jdbc(url\u003djdbc_url, table\u003d\u0027customers\u0027, mode\u003dmode, properties\u003dconfig)",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:39:45.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190513-011833_1638693685",
+      "dateCreated": "2019-05-13 01:18:33.000",
+      "dateStarted": "2019-05-15 03:39:11.813",
+      "dateFinished": "2019-05-15 03:39:44.753",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Append DataFrame to active_user table in RDS\n\nvinedf.write.jdbc(url\u003djdbc_url, table\u003d\u0027vine_table\u0027, mode\u003dmode, properties\u003dconfig)",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:40:18.000",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190513-011832_467297403",
+      "dateCreated": "2019-05-13 01:18:32.000",
+      "dateStarted": "2019-05-15 03:39:45.070",
+      "dateFinished": "2019-05-15 03:40:17.463",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "",
+      "user": "",
+      "dateUpdated": "2019-05-15 03:39:16.000",
+      "config": {
+        "selectedInterpreter": {},
+        "colWidth": 12.0,
+        "results": [],
+        "editorSetting": {}
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190513-011955_417351709",
+      "dateCreated": "2019-05-13 01:19:55.000",
+      "dateStarted": "2019-05-15 03:44:14.000",
+      "dateFinished": "2019-05-15 03:44:14.000",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    }
+  ],
+  "name": "rds_notebook_final_assignment",
+  "id": "5c0bfb2b87504269a3a0ca6d2e1f456e",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {},
+  "info": {}
+}
